@@ -1,0 +1,8 @@
+// File Example1.acf
+[
+   // This interface will use an implicit binding handle named hExample1Binding.
+   implicit_handle(handle_t hExample1Binding)
+]
+interface Example1 // The interface is named Example1
+{
+}

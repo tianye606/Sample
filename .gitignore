@@ -41,3 +41,15 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+RPCSample/RPCSampleFromCodeProject/ContextExample/DebugExe/
+RPCSample/RPCSampleFromCodeProject/ContextExample/DebugObj/
+RPCSample/RPCSampleFromCodeProject/Example1/DebugExe/
+RPCSample/RPCSampleFromCodeProject/Example1/DebugObj/
+RPCSample/SyncRPC/Debug
+RPCSample/SyncRPC/SyncIDL/Debug
+RPCSample/SyncRPC/SyncRPCSampleClient/Debug
+RPCSample/SyncRPC/SyncRPCSampleServer/Debug
+RPCSample/SyncRPCMultiImp/Debug
+RPCSample/SyncRPCMultiImp/SyncIDL/Debug
+RPCSample/SyncRPCMultiImp/SyncRPCSampleClient/Debug
+RPCSample/SyncRPCMultiImp/SyncRPCSampleServer/Debug

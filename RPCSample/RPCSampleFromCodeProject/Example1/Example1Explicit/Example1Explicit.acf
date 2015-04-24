@@ -1,0 +1,8 @@
+// File Example1Explicit.acf
+[
+   // This interface will use explicit binding handle.
+   explicit_handle
+]
+interface Example1Explicit // The interface is named Example1Explicit
+{
+}

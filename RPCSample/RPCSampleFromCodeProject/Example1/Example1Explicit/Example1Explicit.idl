@@ -1,0 +1,15 @@
+// File Example1Explicit.idl
+[
+   // A unique identifier that distinguishes this interface from other interfaces.
+   uuid(00000002-EAF3-4A7A-A0F2-BCE4C30DA77E),
+
+   // This is version 1.0 of this interface.
+   version(1.0)
+]
+interface Example1Explicit // The interface is named Example1Explicit
+{
+   // A function that takes a binding handle and a zero-terminated string.
+   void Output(
+      [in] handle_t hBinding,
+      [in, string] const char* szOutput);
+}
