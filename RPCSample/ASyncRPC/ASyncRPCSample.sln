@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASyncRPCSampleServer", "SyncRPCSampleServer\SyncRPCSampleServer.vcxproj", "{B8EB118D-F4B2-4177-A710-8F99240F9FED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A356D75E-749C-4398-BD35-89C4E4A850B2} = {A356D75E-749C-4398-BD35-89C4E4A850B2}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASyncIDL", "ASyncStub\ASyncIDL.vcxproj", "{A356D75E-749C-4398-BD35-89C4E4A850B2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SyncIDL", "SyncStub\SyncIDL.vcxproj", "{39827DFD-4853-4F0D-918B-88327354B5DA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SyncRPCSampleClient", "SyncRPCSampleClient\SyncRPCSample.vcxproj", "{40D986DF-C772-458D-A488-61FD7BDBFF99}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASyncRPCSampleClientWithEvent", "ASyncRPCSampleClient\ASyncRPCSampleWithEvent.vcxproj", "{595E1863-77D4-41F7-A19C-FA941E1A0CF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8EB118D-F4B2-4177-A710-8F99240F9FED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8EB118D-F4B2-4177-A710-8F99240F9FED}.Debug|Win32.Build.0 = Debug|Win32
+		{B8EB118D-F4B2-4177-A710-8F99240F9FED}.Release|Win32.ActiveCfg = Release|Win32
+		{B8EB118D-F4B2-4177-A710-8F99240F9FED}.Release|Win32.Build.0 = Release|Win32
+		{A356D75E-749C-4398-BD35-89C4E4A850B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A356D75E-749C-4398-BD35-89C4E4A850B2}.Debug|Win32.Build.0 = Debug|Win32
+		{A356D75E-749C-4398-BD35-89C4E4A850B2}.Release|Win32.ActiveCfg = Release|Win32
+		{A356D75E-749C-4398-BD35-89C4E4A850B2}.Release|Win32.Build.0 = Release|Win32
+		{39827DFD-4853-4F0D-918B-88327354B5DA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{39827DFD-4853-4F0D-918B-88327354B5DA}.Debug|Win32.Build.0 = Debug|Win32
+		{39827DFD-4853-4F0D-918B-88327354B5DA}.Release|Win32.ActiveCfg = Release|Win32
+		{39827DFD-4853-4F0D-918B-88327354B5DA}.Release|Win32.Build.0 = Release|Win32
+		{40D986DF-C772-458D-A488-61FD7BDBFF99}.Debug|Win32.ActiveCfg = Debug|Win32
+		{40D986DF-C772-458D-A488-61FD7BDBFF99}.Debug|Win32.Build.0 = Debug|Win32
+		{40D986DF-C772-458D-A488-61FD7BDBFF99}.Release|Win32.ActiveCfg = Release|Win32
+		{40D986DF-C772-458D-A488-61FD7BDBFF99}.Release|Win32.Build.0 = Release|Win32
+		{595E1863-77D4-41F7-A19C-FA941E1A0CF9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{595E1863-77D4-41F7-A19C-FA941E1A0CF9}.Debug|Win32.Build.0 = Debug|Win32
+		{595E1863-77D4-41F7-A19C-FA941E1A0CF9}.Release|Win32.ActiveCfg = Release|Win32
+		{595E1863-77D4-41F7-A19C-FA941E1A0CF9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

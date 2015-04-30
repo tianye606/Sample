@@ -13,8 +13,6 @@ interface ContextExample // The interface is named ContextExample
 
    // Open a context on the server.
    CONTEXT_HANDLE Open(
-      // Explicit server binding handle.
-      [in] handle_t hBinding,
       // String to be output on the server.
       [in, string] const char* szString);
 

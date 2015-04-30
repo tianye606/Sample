@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Thu Apr 23 17:12:55 2015
+/* at Fri Apr 24 16:58:28 2015
  */
 /* Compiler settings for ContextExample.idl:
     Oicf, W4, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -55,7 +55,7 @@ extern "C"{
 typedef /* [context_handle] */ void *CONTEXT_HANDLE;
 
 CONTEXT_HANDLE Open( 
-    /* [in] */ handle_t hBinding,
+    /* [in] */ handle_t IDL_handle,
     /* [string][in] */ const char *szString);
 
 void Output( 

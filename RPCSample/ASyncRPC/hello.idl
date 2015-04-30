@@ -1,0 +1,12 @@
+//file hello.idl
+[
+    uuid(7a98c250-6808-11cf-b73b-00aa00b677a7),
+    version(1.0)
+]
+interface hello
+{
+    const long DEFAULT_ASYNC_DELAY = 10000;
+    int HelloProc([in, string] wchar_t * pszString);
+    int SyncHelloProc([in, string] wchar_t * pszString);
+    void Shutdown(void);
+}

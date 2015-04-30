@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Thu Apr 23 17:12:55 2015
+/* at Fri Apr 24 16:58:28 2015
  */
 /* Compiler settings for ContextExample.idl:
     Oicf, W4, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -96,7 +96,7 @@ static RPC_BINDING_HANDLE ContextExample__MIDL_AutoBindHandle;
 
 
 CONTEXT_HANDLE Open( 
-    /* [in] */ handle_t hBinding,
+    /* [in] */ handle_t IDL_handle,
     /* [string][in] */ const char *szString)
 {
 
@@ -105,7 +105,7 @@ CONTEXT_HANDLE Open(
     _RetVal = NdrClientCall2(
                   ( PMIDL_STUB_DESC  )&ContextExample_StubDesc,
                   (PFORMAT_STRING) &ContextExample__MIDL_ProcFormatString.Format[0],
-                  ( unsigned char * )&hBinding);
+                  ( unsigned char * )&IDL_handle);
     return ( CONTEXT_HANDLE  )_RetVal.Pointer;
     
 }
@@ -172,7 +172,7 @@ static const ContextExample_MIDL_PROC_FORMAT_STRING ContextExample__MIDL_ProcFor
 /* 24 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 26 */	NdrFcShort( 0x0 ),	/* 0 */
 
-	/* Parameter hBinding */
+	/* Parameter IDL_handle */
 
 /* 28 */	NdrFcShort( 0x10b ),	/* Flags:  must size, must free, in, simple ref, */
 /* 30 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */

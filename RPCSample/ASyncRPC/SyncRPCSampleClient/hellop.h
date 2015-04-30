@@ -1,0 +1,1 @@
+void CallHelloProc(TCHAR * pszString);
