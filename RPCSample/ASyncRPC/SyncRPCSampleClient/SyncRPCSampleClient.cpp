@@ -7,7 +7,6 @@
 void CallHelloProc(TCHAR * pszString)
 {
     RPC_STATUS status;
-    RPC_ASYNC_STATE Async;
     TCHAR * pszUuid = NULL;
     TCHAR * pszProtocolSequence = TEXT("ncacn_np");
     TCHAR * pszNetworkAddress = NULL;
