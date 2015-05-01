@@ -149,7 +149,7 @@ void main(void)
 {
     TCHAR * pszUuid = NULL;
     TCHAR * pszProtocolSequence = TEXT("ncacn_ip_tcp");
-    TCHAR * pszNetworkAddress = TEXT("yongyang_r1");
+    TCHAR * pszNetworkAddress = TEXT("localhost");
     TCHAR * pszEndpoint = TEXT("4747");
     TCHAR * pszOptions = NULL;
     TCHAR * pszStringBinding = NULL;
