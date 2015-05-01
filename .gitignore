@@ -47,3 +47,4 @@ Temporary Items
 **/*.opensdf
 **/*.sdf
 **/*.suo
+**/ipch/*
