@@ -31,7 +31,7 @@ DWORD WINAPI HelloReplyByAPC(_In_ LPVOID lpParameter)
     HANDLE hAPCComplete = CreateEvent(NULL, FALSE, FALSE, NULL);
     Async.UserInfo = hAPCComplete;
     Async.NotificationType = RpcNotificationTypeApc;
-    Async.u.APC.hThread = GetCurrentThread();
+    Async.u.APC.hThread = 0;
     Async.u.APC.NotificationRoutine = HelloProcCallback;
 
     RpcTryExcept
@@ -39,7 +39,9 @@ DWORD WINAPI HelloReplyByAPC(_In_ LPVOID lpParameter)
         HelloProc(&Async, L"Hello Proc by APC");
         printf("APC Asynchronous call to HelloProc returned\r\n");
 
-        //Wait APC to complete
+        //Wait APC to complete, SleepEx will make thread enters alertable state and so APC can be called when ASYNC RPC completes.
+        //And it returns when APC completed, wait event hAPCComplete to double confirm APC call completes (should be optional)
+        SleepEx(INFINITE, TRUE);
         WaitForSingleObject(hAPCComplete, INFINITE);
     }
     RpcExcept(1)
@@ -113,7 +115,8 @@ DWORD WINAPI HelloReply(_In_ LPVOID lpParameter)
     HANDLE hAPCComplete = CreateEvent(NULL, FALSE, FALSE, NULL);
     APCAsync.UserInfo = hAPCComplete;
     APCAsync.NotificationType = RpcNotificationTypeApc;
-    APCAsync.u.APC.hThread = GetCurrentThread();
+    //NOTES::Cannot use pseudo handle returned by GetCurrentThread, APC will be called even if current thread is not in alertable state when using that pseudo handle (weird??)
+    APCAsync.u.APC.hThread = 0;
     APCAsync.u.APC.NotificationRoutine = HelloProcCallback;
 
     int nReply = 0;
@@ -129,7 +132,8 @@ DWORD WINAPI HelloReply(_In_ LPVOID lpParameter)
         RpcAsyncCompleteCall(&Async, &nReply);
         printf("Event call to HelloProc is completed with reply %d\r\n", nReply);
 
-        //Wait APC to complete
+        //Wait APC to complete, SleepEx will return when APC completed
+        SleepEx(INFINITE, TRUE);
         WaitForSingleObject(hAPCComplete, INFINITE);
     }
     RpcExcept(1)
@@ -150,7 +154,6 @@ void main(void)
     TCHAR * pszOptions = NULL;
     TCHAR * pszStringBinding = NULL;
     //TCHAR * pszString = TEXT("hello, world");
-    unsigned long ulCode;
 
     RPC_STATUS status = RpcStringBindingCompose(reinterpret_cast<RPC_WSTR>(pszUuid),
         reinterpret_cast<RPC_WSTR>(pszProtocolSequence),
@@ -160,21 +163,21 @@ void main(void)
         reinterpret_cast<RPC_WSTR *>(&pszStringBinding));
     if (status) exit(status);
 
-    handle_t hello_IfAsyncHandle1, hello_IfAsyncHandle2, hello_IfSyncHandle;
     status = RpcBindingFromStringBinding(reinterpret_cast<RPC_WSTR>(pszStringBinding), &hello_IfHandle);
     if (status) exit(status);
     //SyncHelloProc(L"test");
 
-    //Question::WT_EXECUTEINPERSISTENTTHREAD flag will cause two call back functions are executed in the same thread, so these two callbacks are executed by sequence (not in parallel) 
+    //Notes::WT_EXECUTEINPERSISTENTTHREAD flag will cause two call back functions are executed in the same thread, so these two callbacks are executed by sequence (not in parallel) 
     //MSDN said WT_EXECUTEDEFAULT flag will cause the callback function is queued to a non-I/O worker thread, and so its APC cannot 
     //be guarantee to be called, which also means the thread will be alertable if you call these SleepEx, WaitForSignleObject functions in the callbacks explicitly.
     //QueueUserWorkItem(HelloReplyByAPC, NULL, WT_EXECUTEDEFAULT);
     //QueueUserWorkItem(HelloReplyByEvent, NULL, WT_EXECUTEDEFAULT);
     //Sleep(40000);
 
-    //Question::Why two RPC (RpcNotificationTypeApc and RpcNotificationTypeEvent) on server are called one bye one, 
+    //Notes::Why two RPC (RpcNotificationTypeApc and RpcNotificationTypeEvent) on server are called one bye one, 
     //RpcNotificationTypeApc completes in 10s and RpcNotificationTypeEvent completes in another 10s. Which doesn't make sense since Async RPC calls are supposed work concurrently.
-    //The reason is still unknown, could be related to APC and maybe MSRPC bug?? so use different thread to call ASYNC RPC to make them run on server concurrently
+    //The reason seems be the two ASYNC RPC are called in the same thread and so the second one will be really invoked only when the first ASYNC call returned, may be by design or a bug of RPC.
+    //So use different thread to call ASYNC RPC to make them run on server concurrently
     HANDLE hAPCThread = CreateThread(NULL,
         0,
         HelloReplyByAPC,
