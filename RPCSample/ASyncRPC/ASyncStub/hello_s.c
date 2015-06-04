@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Thu Apr 30 14:46:10 2015
+/* at Fri May 01 12:50:58 2015
  */
 /* Compiler settings for ..\hello.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 

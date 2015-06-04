@@ -1,0 +1,3 @@
+DIRS= \
+     loopback \
+     testor 
