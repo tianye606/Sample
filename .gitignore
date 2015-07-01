@@ -44,6 +44,7 @@ Temporary Items
 
 **/*Debug*/*
 **/*Release*/*
+**/*Output*/*
 **/*.opensdf
 **/*.sdf
 **/*.suo
