@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<TextAnalysisTool.NET version="2006-12-04" showOnlyFilteredLines="True">
+  <filters>
+    <filter enabled="y" excluding="n" type="matches_text" case_sensitive="n" regex="n" text="**" />
+    <filter enabled="y" excluding="n" color="800000" type="matches_text" case_sensitive="n" regex="n" text="xyz" />
+  </filters>
+</TextAnalysisTool.NET>
