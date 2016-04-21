@@ -45,7 +45,10 @@ int _cdecl main(void)
         {
             printf("Start Service\n");
 
-            StartService(hService, 0, NULL);
+            if (!StartService(hService, 0, NULL))
+            {
+                printf("Start service failed %0X\r\n",GetLastError());
+            }
             printf("Press Enter to close service\r\n");
             getchar();
             ControlService(hService, SERVICE_CONTROL_STOP, &ss);

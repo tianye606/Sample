@@ -32,18 +32,27 @@ int _cdecl main(void)
     {
         printf("Create Service\n");
 
-        hService = CreateService(hSCManager, "Example", "Example Driver", SERVICE_START | DELETE | SERVICE_STOP, SERVICE_KERNEL_DRIVER, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, "C:\\example.sys", NULL, NULL, NULL, NULL, NULL);
+        hService = CreateService(hSCManager, TEXT("Example"), TEXT("Example Driver")
+            , SERVICE_START | DELETE | SERVICE_STOP, SERVICE_KERNEL_DRIVER, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE
+            , TEXT("C:\\example.sys"), NULL, NULL, NULL, NULL, NULL);
 
         if(!hService)
         {
-            hService = OpenService(hSCManager, "Example", SERVICE_START | DELETE | SERVICE_STOP);
+            hService = OpenService(hSCManager, TEXT("Example"), SERVICE_START | DELETE | SERVICE_STOP);
+        }
+        else
+        {
+            printf("CreateService failed %0X\r\n", GetLastError());
         }
 
         if(hService)
         {
             printf("Start Service\n");
 
-            StartService(hService, 0, NULL);
+            if (!StartService(hService, 0, NULL))
+            {
+                printf("StartService failed %0X\r\n", GetLastError());
+            }
             printf("Press Enter to close service\r\n");
             getchar();
             ControlService(hService, SERVICE_CONTROL_STOP, &ss);
@@ -51,6 +60,10 @@ int _cdecl main(void)
             CloseServiceHandle(hService);
 
             DeleteService(hService);
+        }
+        else
+        {
+            printf("OpenService failed %0X\r\n", GetLastError());
         }
 
         CloseServiceHandle(hSCManager);

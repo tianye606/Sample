@@ -10,11 +10,12 @@
  *     Driver Functionality
  **********************************************************************/
 
-#define _X86_ 
 
 #include <wdm.h>
 #include "examplefilter.h"
 #include <public.h>
+
+#pragma warning(disable:4116)
 
 /**********************************************************************
  * Internal Functions
@@ -43,7 +44,6 @@ NTSTATUS ExampleFilter_Create(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
     NTSTATUS NtStatus = STATUS_SUCCESS;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext = (PEXAMPLE_FILTER_EXTENSION)DeviceObject->DeviceExtension;
-    PIO_STACK_LOCATION pIoStackIrp = NULL;
 
     DbgPrint("ExampleFilter_Create Called \r\n");
 
@@ -82,7 +82,6 @@ NTSTATUS ExampleFilter_Close(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
     NTSTATUS NtStatus = STATUS_SUCCESS;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext = (PEXAMPLE_FILTER_EXTENSION)DeviceObject->DeviceExtension;
-    PIO_STACK_LOCATION pIoStackIrp = NULL;
 
     DbgPrint("ExampleFilter_Close Called \r\n");
 
@@ -124,7 +123,6 @@ NTSTATUS ExampleFilter_IoControlInternal(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
     NTSTATUS NtStatus = STATUS_NOT_SUPPORTED;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext = (PEXAMPLE_FILTER_EXTENSION)DeviceObject->DeviceExtension;
-    PIO_STACK_LOCATION pIoStackIrp = NULL;
     DbgPrint("ExampleFilter_IoControlInternal Called \r\n");
 
     /*
@@ -164,7 +162,6 @@ NTSTATUS ExampleFilter_IoControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
     NTSTATUS NtStatus = STATUS_NOT_SUPPORTED;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext = (PEXAMPLE_FILTER_EXTENSION)DeviceObject->DeviceExtension;
-    PIO_STACK_LOCATION pIoStackIrp = NULL;
     DbgPrint("ExampleFilter_IoControl Called \r\n");
 
     /*
@@ -208,8 +205,7 @@ NTSTATUS ExampleFilter_Write(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
     NTSTATUS NtStatus = STATUS_UNSUCCESSFUL;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext = (PEXAMPLE_FILTER_EXTENSION)DeviceObject->DeviceExtension;
-    PIO_STACK_LOCATION pIoStackIrp = NULL;
-\
+
     DbgPrint("ExampleFilter_Write Called \r\n");
 
 
@@ -267,6 +263,9 @@ NTSTATUS ExampleFilter_Read(PDEVICE_OBJECT DeviceObject, PIRP Irp)
      * call IoCopyCurrentIrpStackLocationToNext() and set a completetion routine.
      */
     pIoStackIrp = IoGetCurrentIrpStackLocation(Irp);
+    //PIO_STACK_LOCATION nextIoStack = IoGetNextIrpStackLocation(Irp);
+
+    //DbgPrint("nextIoStack is %p", nextIoStack->DeviceObject);
 
     IoCopyCurrentIrpStackLocationToNext(Irp);
     IoSetCompletionRoutine(Irp, (PIO_COMPLETION_ROUTINE) ExampleFilter_CompletionRoutine, NULL, TRUE, TRUE, TRUE);
@@ -426,7 +425,9 @@ NTSTATUS ExampleFilter_UnSupportedFunction(PDEVICE_OBJECT DeviceObject, PIRP Irp
 
 NTSTATUS ExampleFilter_CompletionRoutine(PDEVICE_OBJECT DeviceObject, PIRP Irp, PVOID Context)
 {
-    
+    UNREFERENCED_PARAMETER(DeviceObject);
+    UNREFERENCED_PARAMETER(Irp);
+    UNREFERENCED_PARAMETER(Context);
     DbgPrint("ExampleFilter_CompletionRoutine Called \r\n");
     /*
      *   We need to return "STATUS_MORE_PROCESSING_REQUIRED" so that we can use the IRP in our driver.
@@ -449,12 +450,15 @@ NTSTATUS ExampleFilter_FixNullString(PCHAR pString, UINT uiSize)
 {
    NTSTATUS NtStatus = STATUS_SUCCESS;
    UINT uiIndex = 0;
+   //Compitible with unicode
+   TCHAR* ptString = (TCHAR*)pString;
+   uiSize = uiSize / sizeof(TCHAR);
 
    while(uiIndex < (uiSize - 1))
    {
-       if(pString[uiIndex] == 0)
+       if (ptString[uiIndex] == 0)
        {
-           pString[uiIndex] = ' ';
+           ptString[uiIndex] = '\n';
        }
 
        uiIndex++;
@@ -463,7 +467,7 @@ NTSTATUS ExampleFilter_FixNullString(PCHAR pString, UINT uiSize)
    /*
     * Fix the end NULL
     */
-   pString[uiIndex] = 0;
+   //ptString[uiIndex] = 0;
 
    return NtStatus;
 }

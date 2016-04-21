@@ -26,7 +26,7 @@ int _cdecl main(void)
     DWORD dwReturn;
     char szTemp[256] = {0};
     
-    hFile = CreateFile("\\\\.\\Example", GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+    hFile = CreateFile(TEXT("\\\\.\\Example"), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
     if(hFile != INVALID_HANDLE_VALUE)
     {

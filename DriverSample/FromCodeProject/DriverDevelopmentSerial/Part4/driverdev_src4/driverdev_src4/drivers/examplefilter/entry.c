@@ -9,7 +9,7 @@
  *
  *     Driver Entry Point
  **********************************************************************/
-#define _X86_
+//#define _X86_
 
 
 #include <wdm.h>
@@ -40,16 +40,21 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT  pDriverObject, PUNICODE_STRING  pRegistryPa
  **********************************************************************/
 NTSTATUS DriverEntry(PDRIVER_OBJECT  pDriverObject, PUNICODE_STRING  pRegistryPath)
 {
+    UNREFERENCED_PARAMETER(pRegistryPath);
     NTSTATUS NtStatus = STATUS_SUCCESS;
     UINT uiIndex = 0;
     PDEVICE_OBJECT pDeviceObject = NULL, pFilteredDevice = NULL;
     UNICODE_STRING usDeviceToFilter;
     PEXAMPLE_FILTER_EXTENSION pExampleFilterDeviceContext;
 
+    UNICODE_STRING usDriverName, usDosDeviceName;
+    RtlInitUnicodeString(&usDriverName, L"\\Device\\ExampleFilter");
+    RtlInitUnicodeString(&usDosDeviceName, L"\\DosDevices\\ExampleFilter");
+
     DbgPrint("DriverEntry Called \r\n");
 
-    NtStatus = IoCreateDevice(pDriverObject, sizeof(EXAMPLE_FILTER_EXTENSION), NULL, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &pDeviceObject);
-
+    NtStatus = IoCreateDevice(pDriverObject, sizeof(EXAMPLE_FILTER_EXTENSION), &usDriverName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &pDeviceObject);
+    //DbgBreakPoint();
     if(NtStatus == STATUS_SUCCESS)
     {
 
@@ -121,6 +126,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT  pDriverObject, PUNICODE_STRING  pRegistryPa
             pDeviceObject->Characteristics = pFilteredDevice->Characteristics;
             pDeviceObject->Flags &= ~DO_DEVICE_INITIALIZING;
         }
+        IoCreateSymbolicLink(&usDosDeviceName, &usDriverName);
     }
 
                                

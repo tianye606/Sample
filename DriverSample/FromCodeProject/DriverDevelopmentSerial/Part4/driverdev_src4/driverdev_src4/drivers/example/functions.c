@@ -10,11 +10,14 @@
  *     Driver Functionality
  **********************************************************************/
 
-#define _X86_ 
+//#define _X86_ 
 
 #include <wdm.h>
 #include "example.h"
 #include <public.h>
+
+
+#pragma warning(disable:4116)
 
 /*
  * Internal IOCTL's. 
@@ -2008,7 +2011,11 @@ NTSTATUS Example_CreateNewResource(PIRP Irp, PIO_STACK_LOCATION pIoStackIrp, UIN
     NTSTATUS NtStatus = STATUS_UNSUCCESSFUL;
     PEXAMPLE_LIST pExampleList = NULL;
     PFILE_OBJECT pFileObject = (PFILE_OBJECT)Irp->AssociatedIrp.SystemBuffer;
-    PEXAMPLE_DEVICE_CONTEXT pExampleDeviceContext =  (PEXAMPLE_DEVICE_CONTEXT)pFileObject->DeviceObject->DeviceExtension;
+    //Use pIoStackIrp->DeviceObject instead of pFileObject->DeviceObject since pFileObject->DeviceObject is the device object on which FileObject was opened,
+    //it could be ExampleFilter device object if ExampleFilter driver has created a device with a supplied name (not NULL),
+    //and application (like example ReadFromDriver) is using ExampleFilter device name to open file CreateFile("\\\\.\\ExampleFilter\\%s"). In such case ExampleFilter DeviceExtension will be 
+    //corrupted and cause OS crash. 
+    PEXAMPLE_DEVICE_CONTEXT pExampleDeviceContext = (PEXAMPLE_DEVICE_CONTEXT)pIoStackIrp->DeviceObject->DeviceExtension;
 
     DbgPrint("Example_CreateNewResource \n");
 

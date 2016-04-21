@@ -32,11 +32,13 @@ int _cdecl main(void)
     {
         printf("Create Service For Filter Driver\n");
 
-        hService = CreateService(hSCManager, "ExampleFilter", "Example Filter Driver", SERVICE_START | DELETE | SERVICE_STOP, SERVICE_KERNEL_DRIVER, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, "C:\\examplefilter.sys", NULL, NULL, NULL, NULL, NULL);
+        hService = CreateService(hSCManager, TEXT("ExampleFilter"), 
+            TEXT("Example Filter Driver"), SERVICE_START | DELETE | SERVICE_STOP, SERVICE_KERNEL_DRIVER, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE,
+            TEXT("C:\\examplefilter.sys"), NULL, NULL, NULL, NULL, NULL);
 
         if(!hService)
         {
-            hService = OpenService(hSCManager, "ExampleFilter", SERVICE_START | DELETE | SERVICE_STOP);
+            hService = OpenService(hSCManager, TEXT("ExampleFilter"), SERVICE_START | DELETE | SERVICE_STOP);
         }
 
         if(hService)

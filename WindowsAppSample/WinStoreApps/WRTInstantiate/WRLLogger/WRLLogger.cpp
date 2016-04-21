@@ -31,17 +31,23 @@ public:
             wprintf_s(L"%s\n", text);
         return S_OK;
     }
-
-private:
-    PWSTR m_category;
     // Make destroyable only through Release.
     ~CConsoleWriter()
     {
         CoTaskMemFree(m_category);
     }
+
+private:
+    PWSTR m_category;
+
 };
 
 void incr(int&& rr) { rr++; }
+
+void CallConsoleWritter(ComPtr<CConsoleWriter> writer)
+{
+    writer->Log(L"new log");
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -54,9 +60,15 @@ int _tmain(int argc, _TCHAR* argv[])
     //writer = Make<CConsoleWriter>();
     hr = writer->Log(L"Logger ready.");
 
+    CallConsoleWritter(writer);
+
     //rvalue reference
     double t = 1;
     incr(1);
+
+    int m = 0;
+    int n = 0;
+    [&, n](int a) mutable { m = ++n + a; }(4);
+
     return hr;
 }
-

@@ -10,7 +10,7 @@
  *     Driver Functionality
  **********************************************************************/
 
-#define _X86_ 
+//#define _X86_ 
 
 #include <wdm.h>
 #include "example.h"
