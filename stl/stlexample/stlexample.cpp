@@ -6,8 +6,18 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    average<int> ave(3);
-    int a = ave(4, 6);
+    try
+    {
+        average<int> ave(3);
+        int a = ave(4, 6);
+        throw bad_alloc();
+    }
+    catch (bad_alloc ex)
+    {
+        {
+            throw;
+        }
+    }
 	return 0;
 }
 

@@ -1,0 +1,44 @@
+﻿<Window x:Class="WPFExample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:WPFExample"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="template1">
+            <StackPanel>
+                <TextBlock Text="{Binding}" FontSize="24" FontWeight="Bold" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <v:BindToTemplate1 x:Key="BindToTemplate1"/>
+        <v:MyConverter x:Key="MyConverter"/>
+        <!--Below markup reference to ResourceDirectory.xaml and has the same effect-->
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary 
+                  Source="ResourceDirectory.xaml">
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        -->
+    </Window.Resources>
+    <Grid>
+        <!--this will allow converter to return different object according to BindToTemplate1.CFEState value-->
+        <ContentControl Name="contCtrl1" ContentTemplate="{Binding CFEState, Source={StaticResource BindToTemplate1}, Converter={StaticResource MyConverter}}" Content="abcfds1">
+            <!--<ContentControl.DataContext>
+                <v:BindToTemplate1/>
+            </ContentControl.DataContext>-->
+        </ContentControl>
+        <!--this specifies DataContext and it has the same effect as prior Source={StaticResource BindToTemplate1}. Both tells binding where to get the CFEState-->
+        <!--
+        <ContentControl Name="contCtrl1" ContentTemplate="{Binding CFEState, Source={StaticResource BindToTemplate1}, Converter={StaticResource MyConverter}}" Content="abcfds1">
+            <ContentControl.DataContext>
+                <v:BindToTemplate1/>
+            </ContentControl.DataContext>
+        </ContentControl>-->
+        <!--this will be the same effect as prior Converter-->
+        <ContentControl Name="contCtrl2" ContentTemplate="{Binding Mode=OneWay, Source={StaticResource template1}}" Content="abcfds2" Margin="0,41,401,222"/>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,102,0,0" Click="click_test"/>
+    </Grid>
+</Window>
+
