@@ -30,6 +30,9 @@
     <ClInclude Include="VirutalInheritance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MultiInheritance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
